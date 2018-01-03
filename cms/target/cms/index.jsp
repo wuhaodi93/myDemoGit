@@ -1,0 +1,11 @@
+<html>
+<head>
+    <script>
+        window.onload=function(){
+            window.location="localhost:8080/cms/login.html";
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>

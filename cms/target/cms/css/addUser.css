@@ -1,0 +1,10 @@
+.addUser{
+    margin: 60px auto;
+    width: 180px;
+}
+#cmsUserName,#cmsUserPassword{
+    height: 40px;
+}
+#userEditBody{
+    height: 300px;
+}

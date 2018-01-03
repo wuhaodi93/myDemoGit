@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.gxht.cms.merchant.dao.MerchantDao">
+
+    <select id="findMerchantEnterApplyInfo" resultType="cn.net.gxht.cms.merchant.entity.ApplyInfo"
+            parameterType="java.lang.Integer">
+        SELECT
+        t1.id,
+        t1.userName,
+        t1.userPhone AS phone,
+        t1.businessLicense,
+        t1.failedMessage,
+        t1.title,
+        t1.content,
+        t1.img,
+        t1.merchantType,
+        t1.cityName,
+        t1.createDate,
+        t1.companyName,
+        t1.status,
+        t1.statuName,
+        appPicture.title applyType
+        FROM (SELECT
+        applyinfo.id id,
+        user.name userName,
+        user.phone userPhone,
+        userId,
+        creditCode,
+        businessLicense,
+        failedMessage,
+        title,
+        content,
+        hp.belongId,
+        picture.img,
+        applyinfo.status,
+        applyinfo.typeId,
+        applyInfoStatu.name statuName,
+        applyinfo.createDate,
+        applyinfo.companyName AS companyName,
+        merchantType.type merchantType,
+        city.cityName
+        FROM app_merchantApplyInfo applyinfo LEFT JOIN app_picture picture ON picture.applyInfoId = applyinfo.id
+        LEFT JOIN app_hpandmer hp ON picture.Id = hp.merchantId
+        JOIN app_merchantApplyInfoStatu applyInfoStatu ON applyInfoStatu.id = applyinfo.status
+        LEFT JOIN app_user_merType merchantType ON merchantType.id = typeId join city on applyinfo.citycode=city.adcode
+        join app_user user on applyinfo.userId=user.id
+        <where>
+            <if test="state!=null">
+                applyinfo.status=#{state}
+            </if>
+            <if test="merchantType!=0 and merchantType!=null">
+                AND merchantType.id=#{merchantType}
+            </if>
+        </where>
+        ) t1,
+        app_picture appPicture
+        <where>
+            t1.belongId = appPicture.id
+            <if test="applyInfoId!=null">
+                AND t1.id=#{applyInfoId}
+            </if>
+            <if test="keyword!=null and keyword!=''">
+                AND (t1.title like concat(concat('%',#{keyword}),'%')
+                OR t1.content LIKE concat(concat('%',#{keyword}),'%')
+                OR t1.userName LIKE concat(concat('%',#{keyword}),'%'))
+            </if>
+        </where>
+        ORDER by t1.createDate DESC
+    </select>
+    <update id="appUpdateMerchantApplyState" parameterType="java.lang.Integer">
+        update app_merchantApplyInfo set status=#{state} WHERE id=#{id}
+    </update>
+    <update id="appUpdateMerchantApplyFailedReason">
+        UPDATE app_merchantApplyInfo set failedMessage=#{message} WHERE id=#{id}
+    </update>
+
+    <!-- 寻找最近7天商家入驻的数据量 -->
+    <select id="findMerchantEnterData" resultType="map">
+        SELECT
+        a.click_date date,
+        ifnull(b.count, 0) AS times
+        FROM (
+        SELECT date_sub(curdate(), INTERVAL 1 DAY) AS click_date
+        UNION ALL
+        SELECT date_sub(curdate(), INTERVAL 2 DAY) AS click_date
+        UNION ALL
+        SELECT date_sub(curdate(), INTERVAL 3 DAY) AS click_date
+        UNION ALL
+        SELECT date_sub(curdate(), INTERVAL 4 DAY) AS click_date
+        UNION ALL
+        SELECT date_sub(curdate(), INTERVAL 5 DAY) AS click_date
+        UNION ALL
+        SELECT date_sub(curdate(), INTERVAL 6 DAY) AS click_date
+        UNION ALL
+        SELECT date_sub(curdate(), INTERVAL 7 DAY) AS click_date
+        ) a LEFT JOIN (
+        SELECT
+        date(createDate) AS datetime,
+        count(*)       AS count
+        FROM app_merchantApplyInfo
+        GROUP BY date(createDate)
+        ) b ON a.click_date = b.datetime ORDER BY a.click_date;
+    </select>
+
+</mapper>

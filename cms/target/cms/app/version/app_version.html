@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../css/page/paging.css">
+    <link rel="stylesheet" type="text/css" href="../../bootStrap/css/bootstrap.min.css">
+    <link href="../../css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="../../css/table.css" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript" src="../../js/jquery/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery/jquery.form.js"></script>
+    <script src="../../js/app/page/paging.js"></script>
+    <script type="text/javascript" src="../../bootStrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../js/common/common.js"></script>
+    <script type="text/javascript" src="../../js/app/version/version.js"></script>
+    <script type="text/javascript" src="../../js/app/page/page.js"></script>
+
+</head>
+
+
+<body>
+
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">数据表</a></li>
+        <li><a href="#">基本内容</a></li>
+    </ul>
+</div>
+
+<div class="rightinfo">
+
+    <div class="tools">
+
+        <form class="toolbar navbar-form navbar-left" role="search" id="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="关键字" id="keyword">
+            </div>
+            <button type="button" class="btn keywordSearch" id="searchByKeyword">搜索</button>
+        </form>
+
+        <ul class="toolbar1">
+            <li class="click" id="addObject"><span><img src="../../images/t01.png" style="margin-bottom: 20px;"/></span>添加</li>
+        </ul>
+
+    </div>
+
+
+    <table class="tablelist">
+        <thead>
+        <tr>
+            <th><input name="" type="checkbox" value="" checked="checked"/></th>
+            <th>版本<i class="sort"><img src="../../images/px.gif"/></i></th>
+            <th>文件名</th>
+            <th>操作账号</th>
+            <th>更新时间</th>
+            <th>下载量</th>
+            <th>操作</th>
+            <th>备注</th>
+        </tr>
+        </thead>
+        <tbody id="versionUpdateInfo">
+
+        </tbody>
+    </table>
+
+    <div class="page">
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="box" class="box">
+    </div>
+
+</div>
+
+</div>
+<script type="text/javascript">
+    $('.tablelist tbody tr:odd').addClass('odd');
+</script>
+</body>
+</html>

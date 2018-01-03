@@ -1,0 +1,52 @@
+.page{
+    text-align: center;
+    padding: 50px 0 0 0;
+}
+.yemacount{
+    display: inline-block;
+    margin-right: 30px;
+}
+.yemacount span{
+    display: inline;
+    margin: 0 10px;
+}
+.yema{
+    display: inline;
+    font-size: 14px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+.yema:active{
+    color:blue;
+}
+.fenge{
+    display: inline;
+    font-size: 14px;
+    margin: 0 10px;
+}
+.modal-body{
+    height: 500px;
+    width: 100%;
+    text-align: center;
+}
+.showTableImage{
+    width: 500px !important;
+    height: 450px !important;
+    border: 4px solid #FFF;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    -moz-transition: all 0.2s ease;
+    -webkit-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+.pass{
+    color:blue;
+}
+.fail{
+    color:red;
+}
+

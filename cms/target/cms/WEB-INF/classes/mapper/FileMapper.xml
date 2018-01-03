@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.gxht.cms.file.dao.FileDao">
+    <insert id="uploadFile">
+      INSERT INTO  clientAuthInfo(
+        clientId,
+        fileName
+      ) VALUES (
+        #{clientId},
+        #{fileName}
+      )
+    </insert>
+
+    <resultMap id="fileMap" type="cn.net.gxht.cms.file.entity.FileEntity">
+        <id property="id" column="id"></id>
+        <result property="clientName" column="clientName"></result>
+        <collection property="path" ofType="java.lang.String" column="pathId">
+            <result property="path" column="fileName"></result>
+        </collection>
+    </resultMap>
+
+    <select id="downloadFile" parameterType="java.lang.Integer" resultMap="fileMap">
+        select c.id id,cai.fileName fileName,c.clientName,cai.id pathId from clientAuthInfo cai,client c where c.id=#{clientId} and cai.clientId=c.id
+    </select>
+
+    <!--
+        上传文件，插入到数据库
+     -->
+    <insert id="insertAppFile" parameterType="cn.net.gxht.cms.file.entity.App">
+        INSERT INTO cms_app_version (
+          name,
+          version,
+          remark,
+          createTime,
+          digest,
+          uploadUser
+        ) VALUES (
+          #{name },
+          #{version},
+          #{remark},
+          now(),
+          #{digest }, 
+          #{uploadUser}
+        )
+    </insert>
+    
+    <!-- 根据文件摘要判断文件是否上传过-->
+    <select id="findFileExists" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT version from cms_app_version WHERE digest=#{digest }
+    </select>
+
+    <!--  根据版本是否上传过 -->
+    <select id="findVersionExists" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) from cms_app_version WHERE version=#{version }
+    </select>
+
+    <!-- 查找最新上传的文件 -->
+    <select id="findNewestFile" resultType="map" >
+        SELECT id,name,version from cms_app_version order by createTime desc limit 1
+    </select>
+
+    <!-- 更新文件下载量 -->
+    <update id="updateFileDownloadTimes" parameterType="java.lang.Integer">
+        UPDATE cms_app_version SET downloadTimes=downloadTimes+1 WHERE id=#{id}
+    </update>
+
+    <!-- 获得版本信息 -->
+    <select id="findAppVersionInfo" resultType="cn.net.gxht.cms.file.entity.App">
+      SELECT id,version,name,uploadUser,createTime,downloadTimes,remark FROM cms_app_version order by createTime DESC
+    </select>
+</mapper>

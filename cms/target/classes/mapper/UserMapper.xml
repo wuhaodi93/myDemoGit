@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.gxht.cms.user.dao.UserDao">
+
+    <select id="findUser" parameterType="java.lang.String" resultType="cn.net.gxht.cms.user.entity.User">
+        SELECT * FROM cms_user WHERE NAME = #{NAME }
+    </select>
+    <!-- 注册账号 -->
+    <insert id="insertUser" parameterType="cn.net.gxht.cms.user.entity.User">
+        INSERT INTO cms_user (
+        NAME ,
+        password,
+        createTime
+        )VALUES(
+        #{name },
+        #{password },
+        NOW()
+        )
+    </insert>
+
+    <!-- 获取用户申请信息 -->
+    <select id="findUserAppliedInfo" resultType="map" parameterType="java.lang.Integer">
+        SELECT c.clientName clientName,
+        p.title title,
+        p.content content,
+        p2.title enterTitle,
+        h.createTime,h.id id
+        FROM client c,picture p,hpandmer h,picture p2
+        WHERE c.id=p.clientId
+        AND p.id=h.merchantId
+        AND p.type="merchant"
+        and p2.id=h.hengpaiId
+        <if test="state!=null">
+            and h.state=#{state}
+        </if>
+    </select>
+
+    <!-- 获取app 用户认证信息 -->
+    <select id="AppFindUserAppliedInfo" resultMap="appUserMap" parameterType="java.lang.Integer">
+        SELECT user.id AS userId,
+        user.name AS account,
+        user.phone AS phone,
+        user.authName AS authName,
+        user.authCardNo AS authCardNo,
+        userImg.id AS imgId,
+        userImg.path AS imgPath,
+        user.authTime AS authTime,
+        authStatus.name authStatuName,
+        userImg.typeId typeId
+        FROM app_user user left join app_user_authimg userImg on user.id=userImg.userId left join authStatus on
+        user.authStatus=authStatus.authStatusId
+        <where>
+            <if test="state!=null">
+                AND user.authStatus=#{state}
+            </if>
+            <if test="keyword!=null and keyword!=''">
+                AND user.name like concat(concat('%',#{keyword},'%'))
+                OR user.authCardNo LIKE concat(concat('%',#{keyword},'%'))
+                OR user.phone LIKE concat(concat('%',#{keyword},'%'))
+                OR user.authName LIKE concat(concat('%',#{keyword},'%'))
+            </if>
+        </where>
+        order by user.authTime DESC
+    </select>
+
+    <resultMap id="appUserMap" type="cn.net.gxht.cms.user.entity.AppUser">
+        <id property="id" column="userId"></id>
+        <result property="account" column="account"></result>
+        <result property="phone" column="phone"></result>
+        <result property="city" column="city"></result>
+        <result property="authName" column="authName"></result>
+        <result property="authCardNo" column="authCardNo"></result>
+        <result property="authTime" column="authTime"></result>
+        <result property="authStatuName" column="authStatuName"></result>
+        <collection property="authImgs" ofType="cn.net.gxht.cms.user.entity.AppAuthImg" column="imgId">
+            <id property="imgId" column="imgId"></id>
+            <result property="path" column="imgPath"></result>
+            <result property="typeId" column="typeId"></result>
+        </collection>
+    </resultMap>
+
+    <!-- 查询用户权限 -->
+    <select id="findUserPromission" resultMap="userMap" parameterType="java.lang.String">
+        SELECT user_role.name, <if test="name!=null">user_role.password,</if>user_role.createTime, user_role.roleId,
+        user_role.userId,
+        promission_role.promissionId,user_role.description description
+        , promission_role.role, promission_role.promission
+        FROM (SELECT user.name AS name, user.password AS password, user.id AS userId,user.createTime AS createTime,
+        role.id AS roleId, role.name AS
+        roleName,role.description AS description
+        FROM cms_user user, cms_role role, cms_user_role ur
+        WHERE user.id = ur.userId
+        AND role.id = ur.roleId
+        <if test="name!=null">
+            AND user.name=#{name}
+        </if>
+        ) user_role, (SELECT promission.name AS promission, role.name AS role, promission.id AS promissionId, role.id AS
+        roleId
+        FROM cms_promission promission, cms_role role, cms_role_promission rp
+        WHERE promission.id = rp.promissionId
+        AND role.id = rp.roleId
+        ) promission_role
+        WHERE user_role.roleId = promission_role.roleId
+    </select>
+
+    <resultMap id="userMap" type="cn.net.gxht.cms.user.entity.User">
+        <id property="userId" column="userId"></id>
+        <result property="name" column="name"></result>
+        <result property="password" column="password"></result>
+        <result property="createTime" column="createTime"></result>
+        <collection property="roles" ofType="cn.net.gxht.cms.user.entity.Role" column="roleId">
+            <id property="roleId" column="roleId"></id>
+            <result property="role" column="role"></result>
+            <result property="roleDescription" column="description"></result>
+            <collection property="promissions" ofType="cn.net.gxht.cms.user.entity.Promission" column="promissionId">
+                <id property="promissionId" column="promissionId"></id>
+                <result property="promission" column="promission"></result>
+            </collection>
+        </collection>
+    </resultMap>
+    <!--
+    改变用户认证状态
+     -->
+    <update id="app_updateUserAuthState">
+        UPDATE app_user SET authStatus=#{state},authFailedResult=#{failedMessage} WHERE id=#{id}
+    </update>
+
+    <select id="app_findUserApplicationInfo" resultType="cn.net.gxht.cms.user.entity.ApplicationInfo"
+            parameterType="java.lang.String">
+        SELECT
+        applyInfo.id applyInfoId,
+        user.name applicationUserName,
+        picture.title,
+        info.createTime,
+        user.phone applicationUserPhone,
+        user.id applicationUserId
+        FROM app_application_info info join app_user user on info.userId = user.id join app_picture picture on
+        info.pictureId = picture.id join app_merchantApplyInfo applyInfo on picture.applyInfoId = applyInfo.id
+        <if test="keyword!=null and keyword!=''">
+            WHERE picture.title like concat(concat('%',#{keyword},'%'))
+            OR user.name LIKE concat(concat('%',#{keyword},'%'))
+            OR user.phone LIKE concat(concat('%',#{keyword},'%'))
+        </if>
+    </select>
+
+    <select id="findUserInfo" parameterType="java.lang.Integer" resultType="cn.net.gxht.cms.user.entity.AppUser">
+        SELECT user.name account,user.phone,user.img,user.authStatus,authStatus.name authStatuName from app_user
+        user,authStatus where authStatus.authStatusId=user.authStatus
+        <if test="id!=null">
+            and user.id=#{id}
+        </if>
+    </select>
+
+    <select id="findUserFeedBack" resultType="map">
+      SELECT * FROM app_user user,app_user_feedBack feedBack WHERE user.id=feedBack.userId
+    </select>
+
+    <select id="findRole" resultType="cn.net.gxht.cms.user.entity.Role">
+      SELECT id roleId,name role,description roleDescription from cms_role
+    </select>
+
+    <insert id="insertCmsUser" parameterType="cn.net.gxht.cms.user.entity.User" keyProperty="userId"
+            useGeneratedKeys="true">
+        insert into cms_user (name,password,createTime) VALUES (#{name},#{password},now())
+    </insert>
+
+    <insert id="authorization" parameterType="java.lang.Integer">
+      INSERT into cms_user_role (userId,roleId) VALUES (#{userId},#{roleId})
+    </insert>
+    <!-- 寻找最近7天认证的数据量 -->
+    <select id="findAuthUserData" resultType="map">
+        SELECT
+  a.click_date date,
+  ifnull(b.count, 0) AS times
+FROM (
+       SELECT date_sub(curdate(), INTERVAL 1 DAY) AS click_date
+       UNION ALL
+       SELECT date_sub(curdate(), INTERVAL 2 DAY) AS click_date
+       UNION ALL
+       SELECT date_sub(curdate(), INTERVAL 3 DAY) AS click_date
+       UNION ALL
+       SELECT date_sub(curdate(), INTERVAL 4 DAY) AS click_date
+       UNION ALL
+       SELECT date_sub(curdate(), INTERVAL 5 DAY) AS click_date
+       UNION ALL
+       SELECT date_sub(curdate(), INTERVAL 6 DAY) AS click_date
+       UNION ALL
+       SELECT date_sub(curdate(), INTERVAL 7 DAY) AS click_date
+     ) a LEFT JOIN (
+                     SELECT
+                       date(authTime) AS datetime,
+                       count(*)       AS count
+                     FROM app_user
+                     GROUP BY date(authTime)
+                   ) b ON a.click_date = b.datetime ORDER BY a.click_date;
+    </select>
+
+    <!-- 寻找最近7天入驻的数据量 -->
+    <select id="findUserRegisterData" resultType="map">
+        SELECT
+        a.click_date date,
+        ifnull(b.count, 0) AS times
+        FROM (
+        SELECT date_sub(curdate(), INTERVAL 1 DAY) AS click_date
+        UNION ALL
+        SELECT date_sub(curdate(), INTERVAL 2 DAY) AS click_date
+        UNION ALL
+        SELECT date_sub(curdate(), INTERVAL 3 DAY) AS click_date
+        UNION ALL
+        SELECT date_sub(curdate(), INTERVAL 4 DAY) AS click_date
+        UNION ALL
+        SELECT date_sub(curdate(), INTERVAL 5 DAY) AS click_date
+        UNION ALL
+        SELECT date_sub(curdate(), INTERVAL 6 DAY) AS click_date
+        UNION ALL
+        SELECT date_sub(curdate(), INTERVAL 7 DAY) AS click_date
+        ) a LEFT JOIN (
+        SELECT
+        date(createTime) AS datetime,
+        count(*)       AS count
+        FROM app_user
+        GROUP BY date(createTime)
+        ) b ON a.click_date = b.datetime ORDER BY a.click_date;
+    </select>
+    <delete id="deleteCmsUser" parameterType="java.lang.Integer">
+        DELETE FROM cms_user WHERE id=#{id}
+    </delete>
+</mapper>

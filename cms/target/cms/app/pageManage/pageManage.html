@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>无标题文档</title>
+    <link rel="stylesheet" type="text/css" href="../../bootStrap/css/bootstrap.min.css">
+    <link href="../../css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="../../css/select.css" rel="stylesheet" type="text/css"/>
+    <link href="../../css/app/pageManage/pageManage.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="../../js/jquery/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery/jquery.idTabs.min.js"></script>
+    <script src="../../bootStrap/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="../../js/common/common.js"></script>
+    <script type="text/javascript" src="../../js/app/pageManage/pageManage.js"></script>
+    <script type="text/javascript" src="../../js/upload.js"></script>
+    <script type="text/javascript" src="../../js/jquery/jquery.form.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <script language="javascript">
+        $(function () {
+            //导航切换
+            $(".imglist li").click(function () {
+                $(".imglist li.selected").removeClass("selected")
+                $(this).addClass("selected");
+            })
+        })
+    </script>
+</head>
+
+<style>
+    .selected {
+        background-color: #00a4ac;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".tools .nav .toolbar").click(function () {
+            $(".tools .nav .toolbar li.selected").removeClass("selected")
+            $(this).addClass("selected");
+        })
+    })
+</script>
+
+<body>
+
+<div class="formbody">
+
+    <div id="usual1" class="usual">
+
+        <div class="itab">
+            <ul>
+                <li id="carousel"><a href="#tab1" class="selected">轮播图</a></li>
+                <li id="Sudoku"><a href="#tab2">九宫格</a></li>
+                <li id="hotLoans"><a href="#tab3">热门贷款</a></li>
+                <li id="loans"><a href="#tab4">贷款</a></li>
+                <li id="applyCard"><a href="#tab5">申请信用卡</a></li>
+            </ul>
+        </div>
+        <div class="imglist">
+            <div id="tab1">
+            </div>
+            <div id="tab2">
+            </div>
+            <div id="tab3">
+            </div>
+            <div id="tab4">
+            </div>
+            <div id="tab5">
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $('.tablelist tbody tr:odd').addClass('odd');
+        $("#usual1 ul").idTabs();
+    </script>
+
+</div>
+
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body" id="pageEditBody">
+                <img id="editImg"/>
+
+                <form enctype="multipart/form-data" method="post" id="apply">
+                    <div class="attachs fl">
+                        <div class="t_fjfont"> 上传图片:</div>
+                        <div class="upload_btns"><input type="file" name="multipartFile"
+                                                        onchange="filefujianChange(this);"/></div>
+                    </div>
+                </form>
+
+                <div class="input-group input-group-lg" id="sizing-addon1">
+                    <span class="input-group-addon">标题:</span>
+                    <input type="text" class="form-control" aria-describedby="sizing-addon1" id="editTitle">
+                </div>
+                <div class="input-group input-group-lg" id="sizing-addon2">
+                    <span class="input-group-addon">内容:</span>
+                    <input type="text" class="form-control" aria-describedby="sizing-addon1" id="editContent">
+                </div>
+                <div class="input-group input-group-lg" id="sizing-addon3">
+                    <span class="input-group-addon">链接:</span>
+                    <input type="text" class="form-control" aria-describedby="sizing-addon1" id="editUrl">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="save">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

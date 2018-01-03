@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../css/page/paging.css">
+    <link rel="stylesheet" type="text/css" href="../../bootStrap/css/bootstrap.min.css">
+    <link href="../../css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="../../css/table.css" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        table td {
+            height: 88px;
+        }
+    </style>
+    <script type="text/javascript" src="../../js/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../../js/app/page/paging.js"></script>
+    <script type="text/javascript" src="../../bootStrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../js/common/common.js"></script>
+    <script type="text/javascript" src="../../js/app/userInfo/userInfo.js"></script>
+    <script type="text/javascript" src="../../js/app/page/page.js"></script>
+
+</head>
+
+
+<body>
+
+<div class="rightinfo">
+
+    <div class="tools">
+
+        <form class="toolbar navbar-form navbar-left" role="search" id="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="关键字" id="keyword">
+            </div>
+            <button type="button" class="keywordSearch" id="searchByKeyword">搜索</button>
+        </form>
+        <div>
+            <span style="display: inline;float: left;margin-top: 18px;">审核状态:</span>
+            <select class="toolbar statusChoose authStatus">
+                <option value="4" selected>全部信息</option>
+                <option value="0">审核中</option>
+                <option value="1">审核通过</option>
+                <option value="2">审核失败</option>
+                <option value="3">未认证</option>
+            </select>
+        </div>
+    </div>
+
+
+    <table class="tablelist">
+        <thead>
+        <tr>
+            <th><input name="" type="checkbox" value="" checked="checked"/></th>
+            <th>账号<i class="sort"><img src="../../images/px.gif"/></i></th>
+            <th>手机号</th>
+            <th>真实姓名</th>
+            <th>身份证号</th>
+            <th>是否认证</th>
+            <th>认证时间</th>
+            <th>身份证正面</th>
+            <th>身份证反面</th>
+            <th>手持身份证</th>
+        </tr>
+        </thead>
+        <tbody id="clientBody">
+        </tbody>
+    </table>
+
+
+    <div class="page">
+    </div>
+    <!-- Modal -->
+    <div class="showImg"></div>
+    <div id="box" class="box">
+    </div>
+</div>
+
+</div>
+<script type="text/javascript">
+    $('.tablelist tbody tr:odd').addClass('odd');
+</script>
+</body>
+</html>

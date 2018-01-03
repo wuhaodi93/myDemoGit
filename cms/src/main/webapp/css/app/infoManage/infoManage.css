@@ -1,0 +1,13 @@
+#dLabel{
+    height: 35px;
+    background-color: #ffffff;
+    width: 160px;
+    border: 1px solid gray;
+}
+canvas{
+    display: block;
+    width: 317px;
+    height: 158px;
+    margin-left: 400px;
+    margin-top: 170px;
+}

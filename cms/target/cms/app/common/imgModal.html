@@ -1,0 +1,30 @@
+<script>
+    $(document).ready(function () {
+        var deg = 0;
+        console.log(222);
+        document.getElementById("rotateImg").onclick = function () {
+            console.log(11111);
+            deg += 90;
+            document.getElementById("showTableImage").style.transform = "rotate(" + deg + "deg)";
+        }
+    })
+</script>
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">图片</h4>
+            </div>
+            <div class="modal-body">
+                <img class="showTableImage" id="showTableImage"/>
+            </div>
+
+            <div class="modal-footer">
+                <img class="rotateImg" class="btn btn-default" id="rotateImg" src="/cms/images/rotate.png"/>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

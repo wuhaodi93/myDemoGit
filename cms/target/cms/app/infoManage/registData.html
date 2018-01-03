@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>无标题文档</title>
+    <link rel="stylesheet" type="text/css" href="../../bootStrap/css/bootstrap.min.css">
+    <link href="../../css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="../../css/select.css" rel="stylesheet" type="text/css"/>
+    <link href="../../css/app/infoManage/infoManage.css" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript" src="../../js/jquery/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery/jquery.idTabs.min.js"></script>
+    <script src="../../bootStrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../js/select-ui.min.js"></script>
+    <script type="text/javascript" src="../../chart/Chart.bundle.min.js"></script>
+    <script type="text/javascript" src="../../js/common/common.js"></script>
+    <script type="text/javascript" src="../../js/app/infoManage/infoManage.js"></script>
+    <script type="text/javascript" src="../../js/app/infoManage/registData.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<style type="text/css">
+    .chart-container {
+        height: 20vh;
+        width: 40vw
+    }
+
+    .android-lineTab {
+        float: left;
+        margin-bottom: 50px;
+    }
+
+    .android-pie {
+        float: right;
+    }
+
+    .itab {
+        clear: both;
+
+    }
+</style>
+<body>
+<div class="formbody">
+
+    <div id="tab3" class="tabson">
+        <div class="loadChooseList">
+        </div>
+    </div>
+    <div class="chart-container line">
+
+    </div>
+
+    <script type="text/javascript">
+        $("#usual1 ul").idTabs();
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".select1").uedSelect({
+                width: 100,
+                heigth: 50
+            });
+            $(".select3").uedSelect({
+                width: 100,
+                heigth: 50
+            });
+        })
+    </script>
+
+    <script type="text/javascript">
+        $('.tablelist tbody tr:odd').addClass('odd');
+        $("#usual1 ul").idTabs("tabs1");
+    </script>
+
+
+</div>
+</body>
+</html>

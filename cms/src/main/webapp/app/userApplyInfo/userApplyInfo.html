@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../css/page/paging.css">
+    <link rel="stylesheet" type="text/css" href="../../bootStrap/css/bootstrap.min.css">
+    <link href="../../css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="../../css/table.css" rel="stylesheet" type="text/css"/>
+
+    <script src="../../js/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../../js/app/page/paging.js"></script>
+    <script src="../../bootStrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../js/common/common.js"></script>
+    <script type="text/javascript" src="../../js/app/userApplyInfo/app_userApplyInfo.js"></script>
+    <script type="text/javascript" src="../../js/app/page/page.js"></script>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <style type="text/css">
+        .userInfoDetail u {
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="rightinfo">
+
+    <div class="tools">
+        <form class="toolbar navbar-form navbar-left" role="search" id="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="关键字" id="keyword">
+            </div>
+            <button type="button" class="keywordSearch" id="searchByKeyword">搜索</button>
+        </form>
+        <ul class="toolbar1">
+        </ul>
+    </div>
+
+
+    <table class="tablelist">
+        <thead>
+        <tr>
+            <th><input type="checkbox" checked="checked"/></th>
+            <th>用户姓名<i class="sort"><img src="../../images/px.gif"/></i></th>
+            <th>用户手机号</th>
+            <th>商家名称</th>
+            <th>申请时间</th>
+        </tr>
+        </thead>
+        <tbody class="userApplyInfoBody">
+        </tbody>
+    </table>
+
+</div>
+<div id="box" class="box">
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">图片</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.tablelist tbody tr:odd').addClass('odd');
+</script>
+</body>
+</html>
